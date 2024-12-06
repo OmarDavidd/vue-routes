@@ -71,7 +71,7 @@ const getTvShowsById = async (tvShowId) => {
 };
 const getActors = async (id) => {
 	try {
-		const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=es-MX`, options);
+		const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?language=es-MX`, options);
 		const data = await response.json();
 
 		return data.cast.slice(0, 5).map(actor => actor.name).join(', ');
