@@ -51,7 +51,7 @@ const options = {
 const tvShows = ref([])
 const loading = ref(true);
 
-const getTvShowsById = async (movieId) => {
+const getTvShowsById = async (tvShowId) => {
 	try {
 		const resp = await axios.get(`https://api.themoviedb.org/3/tv/${movieId}?language=es-MX`, options);
 		tvShows.value = {
@@ -61,7 +61,7 @@ const getTvShowsById = async (movieId) => {
 			poster_path: resp.data.poster_path,
 			first_air_date: resp.data.first_air_date,
 			vote_average: resp.data.vote_average,
-			actors: await getActors(movieId)
+			actors: await getActors(tvShowId)
 		};
 	} catch (error) {
 		console.error(error);
@@ -76,8 +76,7 @@ const getActors = async (id) => {
 
 		return data.cast.slice(0, 5).map(actor => actor.name).join(', ');
 	} catch (err) {
-		console.log(err);
-		return 'No disponible';
+		console.log("No se encontraron actores");
 	}
 };
 getTvShowsById(route.params.id)
