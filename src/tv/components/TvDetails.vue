@@ -53,7 +53,7 @@ const loading = ref(true);
 
 const getTvShowsById = async (tvShowId) => {
 	try {
-		const resp = await axios.get(`https://api.themoviedb.org/3/tv/${movieId}?language=es-MX`, options);
+		const resp = await axios.get(`https://api.themoviedb.org/3/tv/${tvShowId}?language=es-MX`, options);
 		tvShows.value = {
 			id: resp.data.id,
 			name: resp.data.name,
