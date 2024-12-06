@@ -3,30 +3,18 @@ import { RouterView, RouterLink } from 'vue-router';
 </script>
 
 <template>
-	<ul class="menu">
-		<RouterLink to="/" class="link">Home</RouterLink>
-		<RouterLink to="/phone" class="link">Phone</RouterLink>
-		<RouterLink to="/movie" class="link">Movie</RouterLink>
-		<RouterLink to="/post" class="link">Post</RouterLink>
-		<RouterLink to="/tv" class="link">Tv</RouterLink>
-	</ul>
+	<nav class="bg-gray-800 p-4">
+		<ul class="flex space-x-4">
+			<RouterLink to="/" class="text-white hover:text-gray-300">Home</RouterLink>
+			<RouterLink to="/games" class="text-white hover:text-gray-300">Game</RouterLink>
+			<RouterLink to="/movie" class="text-white hover:text-gray-300">Movie</RouterLink>
+			<RouterLink to="/post" class="text-white hover:text-gray-300">Post</RouterLink>
+			<RouterLink to="/tv" class="text-white hover:text-gray-300">Tv</RouterLink>
+		</ul>
+	</nav>
+
 	<div class="container">
 		<RouterView />
 	</div>
 </template>
-<style>
-.menu {
-	width: 300px;
-	display: flex;
-}
-
-.link {
-	margin-right: 10px;
-}
-
-.link:hover {
-	color: white;
-	background-color: #154c79;
-	cursor: pointer;
-}
-</style>
+<style></style>

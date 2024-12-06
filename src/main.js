@@ -1,5 +1,6 @@
 import App from './App.vue'
 import { createApp } from 'vue'
+import './style.css'
 import misroutes from './router/router.apis'
 
 const app = createApp(App)

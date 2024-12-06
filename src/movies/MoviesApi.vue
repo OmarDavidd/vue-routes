@@ -1,31 +1,61 @@
+<template>
+	<div class="min-h-screen py-8 px-4">
+		<div class="max-w-7xl mx-auto">
+			<h3 class="text-3xl font-extrabold text-gray-800 mb-10 text-center">List of now Playing Movies</h3>
+			<div v-if="loading" class="flex justify-center items-center h-64">
+				<div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+			</div>
+			<div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+				<div v-for="m in nowplaying" :key="m.id"
+					class="bg-gray-200 rounded-lg shadow-md overflow-hidden transition-transform duration-300 transform hover:scale-105">
+					<RouterLink :to="`/movie/${m.id}`">
+						<img :src="`https://image.tmdb.org/t/p/w500${m.poster_path}`" :alt="m.title"
+							class="w-full h-auto object-cover p-4" />
+					</RouterLink>
+					<RouterLink :to="`/movie/${m.id}`">
+						<p class="text-center font-bold text-gray-800">
+							{{ m.title }}
+						</p>
+					</RouterLink>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</template>
+
 <script setup>
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import axios from 'axios';
 
-const api_key = 'a60c8092d60c3a84b51bcf5ac7f13ae9'
-const base_url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${api_key}`
+const options = {
+	method: 'GET',
+	headers: {
+		accept: 'application/json',
+		Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYjZmZjY0NTcyYTEwZTFkOWI2N2M4MjUzY2Y4YjRhNSIsIm5iZiI6MTczMDQ5MDA1OS4wMzcsInN1YiI6IjY3MjUyZWNiY2I1NDhiNzE2YTgyNTZlNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fOcjOlcoL3lnedo-7kK8THxwTqmYpPz45ZIcMQ7uMlU'
+	}
+};
 
 const nowplaying = ref([])
+const loading = ref(true);
+
 const getNowPlayingMovies = async () => {
-    const resp = await fetch(base_url);
-    const data = await resp.json()
-    nowplaying.value = data.results.map((movie) => {
-        return {
-            id: movie.id,
-            title: movie.title,
-            overview: movie.overview,
-            poster_path: movie.poster_path
-        }
-    })
-}
+	try {
+		const resp = await axios.get('https://api.themoviedb.org/3/movie/now_playing', options);
+		nowplaying.value = resp.data.results.map((movie) => ({
+			id: movie.id,
+			title: movie.title,
+			overview: movie.overview,
+			poster_path: movie.poster_path,
+		}));
+	} catch (error) {
+		console.error(error);
+	} finally {
+		loading.value = false;
+	}
+};
 
 getNowPlayingMovies()
 
 </script>
-
-<template>
-    <h3 class="display-6 text-warning">List of now Playing Movies</h3>
-    <template v-for="m in nowplaying" :key="m.id">
-        <RouterLink :to="`/movie/${m.id}`"> {{ m.title }} </RouterLink> <br>
-    </template>
-</template>

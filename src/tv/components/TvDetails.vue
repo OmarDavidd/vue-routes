@@ -5,28 +5,28 @@
 		</div>
 		<div v-else class="grid grid-cols-1">
 			<div class="flex space-x-8 pt-8">
-				<img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title"
+				<img :src="`https://image.tmdb.org/t/p/w500${tvShows.poster_path}`" :alt="tvShows.name"
 					class="w-80 h-auto object-cover rounded-lg shadow-lg" />
 
 				<div class="flex-1">
-					<h3 class="text-3xl font-semibold text-gray-900 mb-4">{{ movie.title }}</h3>
-					<p class="text-lg text-gray-700 leading-relaxed mb-4">{{ movie.overview }}</p>
+					<h3 class="text-3xl font-semibold text-gray-900 mb-4">{{ tvShows.name }}</h3>
+					<p class="text-lg text-gray-700 leading-relaxed mb-4">{{ tvShows.overview }}</p>
 					<p class="text-lg text-gray-700 leading-relaxed mb-4">
-						<span class="font-semibold">Actores principales:</span> {{ movie.actors }}
+						<span class="font-semibold">Actores principales:</span> {{ tvShows.actors }}
 					</p>
 
 					<p class="text-lg text-gray-700 leading-relaxed">
-						<span class="font-semibold">Fecha de estreno:</span> {{ movie.release_date }}
+						<span class="font-semibold">Fecha de estreno:</span> {{ tvShows.first_air_date }}
 					</p>
 					<p class="text-xl text-gray-700 leading-relaxed">
-						<span class="font-semibold">Calificacion:</span> {{ movie.vote_average }}
+						<span class="font-semibold">Calificacion:</span> {{ tvShows.vote_average }}
 					</p>
 
 				</div>
 			</div>
 		</div>
 
-		<RouterLink class="mt-8 inline-block bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-950 " to="/movie">
+		<RouterLink class="mt-8 inline-block bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-950 " to="/tv">
 			Back
 		</RouterLink>
 	</div>
@@ -48,18 +48,18 @@ const options = {
 	}
 };
 
-const movie = ref([])
+const tvShows = ref([])
 const loading = ref(true);
 
-const getMovieById = async (movieId) => {
+const getTvShowsById = async (movieId) => {
 	try {
-		const resp = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?language=es-MX`, options);
-		movie.value = {
+		const resp = await axios.get(`https://api.themoviedb.org/3/tv/${movieId}?language=es-MX`, options);
+		tvShows.value = {
 			id: resp.data.id,
-			title: resp.data.title,
+			name: resp.data.name,
 			overview: resp.data.overview,
 			poster_path: resp.data.poster_path,
-			release_date: resp.data.release_date,
+			first_air_date: resp.data.first_air_date,
 			vote_average: resp.data.vote_average,
 			actors: await getActors(movieId)
 		};
@@ -80,7 +80,7 @@ const getActors = async (id) => {
 		return 'No disponible';
 	}
 };
-getMovieById(route.params.id)
+getTvShowsById(route.params.id)
 
 
 </script>
