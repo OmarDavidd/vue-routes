@@ -42,7 +42,6 @@ const getGames = async () => {
 	try {
 		const response = await axios.get('https://free-to-play-games-database.p.rapidapi.com/api/games?category=shooter', options);
 		games.value = response.data
-		console.log(response.data);
 	} catch (error) {
 		console.error('Error al obtener los juegos:', error);
 	} finally {
